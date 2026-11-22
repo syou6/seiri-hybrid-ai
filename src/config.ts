@@ -33,7 +33,7 @@ export const firebaseConfig: FirebaseWebConfig = {
 export const appCheckSiteKey: string = env.VITE_FIREBASE_APPCHECK_SITE_KEY ?? "";
 
 /** Cloud model used for deep structuring through Firebase AI Logic. */
-export const cloudModel: string = env.VITE_CLOUD_MODEL ?? "gemini-2.5-flash";
+export const cloudModel: string = env.VITE_CLOUD_MODEL ?? "gemini-3.8-flash";
 
 /** Hard switch: force mock mode even when Firebase is configured. */
 export const forceMock: boolean = env.VITE_MOCK_MODE === "true";
