@@ -54,17 +54,17 @@ async function getAiService(): Promise<unknown> {
 
       const app = initializeApp(firebaseConfig);
 
-      // App Check is required by Firebase AI Logic. With a reCAPTCHA v3 site
-      // key we use the real provider; without one we register a debug token
-      // (accepted for hackathon submissions — register the printed token in
+      // App Check is required by Firebase AI Logic. With a reCAPTCHA
+      // Enterprise site key (Firebase "Fraud Defense" provider) we use the
+      // real provider; without one we register a debug token (accepted for
+      // hackathon submissions — register the printed token in
       // Firebase Console > App Check > Apps > Manage debug tokens).
       try {
-        const { initializeAppCheck, ReCaptchaV3Provider } = await import(
-          "firebase/app-check"
-        );
+        const { initializeAppCheck, ReCaptchaEnterpriseProvider } =
+          await import("firebase/app-check");
         if (appCheckSiteKey) {
           initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(appCheckSiteKey),
+            provider: new ReCaptchaEnterpriseProvider(appCheckSiteKey),
             isTokenAutoRefreshEnabled: true,
           });
         } else {
