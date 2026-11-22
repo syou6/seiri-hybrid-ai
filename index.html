@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seiri — Hybrid AI Organizer for Business Chats &amp; Meeting Notes</title>
+    <meta
+      name="description"
+      content="Paste a messy Japanese business chat or meeting notes. Seiri extracts the summary, decisions, action items and open questions — on-device first with Firebase AI Logic hybrid inference, cloud when it matters."
+    />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">整</div>
+        <div>
+          <h1>Seiri <span class="brand-jp">— 整理</span></h1>
+          <p class="tagline">
+            Paste the chaos. Get the decisions.
+            <span class="tagline-sub">Hybrid AI organizer for Japanese business chats &amp; meeting notes</span>
+          </p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span id="engine-badge" class="badge badge-engine">…</span>
+        <span class="badge badge-tech">Firebase AI Logic · Hybrid Inference</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel-input" aria-label="Input">
+        <h2>1. Paste a chat thread or meeting notes <span class="h2-jp">チャット／議事録を貼り付け</span></h2>
+
+        <div class="samples" id="samples"></div>
+
+        <textarea
+          id="input"
+          rows="16"
+          placeholder="例）&#10;田中：新製品の発売日、11月28日で確定しました&#10;佐藤：プレスリリースは明日までに作成します…"
+        ></textarea>
+
+        <div class="input-meta">
+          <span id="char-count">0 chars</span>
+          <span id="route-hint" class="route-hint"></span>
+        </div>
+
+        <label class="privacy-toggle">
+          <input type="checkbox" id="privacy-mode" />
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-label">
+            Privacy mode <span class="toggle-jp">機密モード</span>
+            <small>On-device only. If no local model is available, the request fails — nothing is sent to the cloud.</small>
+          </span>
+        </label>
+
+        <button id="analyze-btn" class="btn-primary">Organize with Hybrid AI</button>
+        <p id="status" class="status" role="status"></p>
+        <p id="error" class="error" role="alert" hidden></p>
+
+        <div class="how">
+          <h3>How the hybrid cascade works</h3>
+          <ol>
+            <li><strong>Triage</strong> — a short classification prompt runs <em>on-device first</em> (Gemini Nano in Chrome via Firebase AI Logic): instant, private, offline-capable.</li>
+            <li><strong>Quick extraction</strong> — short inputs are structured on-device too.</li>
+            <li><strong>Deep structuring</strong> — long documents escalate to the cloud model with a JSON schema for reliable minutes.</li>
+            <li><strong>Privacy mode</strong> — forces on-device only, and fails closed.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="panel panel-output" aria-label="Result">
+        <h2>2. Structured result <span class="h2-jp">整理結果</span></h2>
+
+        <div id="empty-state" class="empty-state">
+          <p>Results will appear here: a triage card, the routing log that shows
+          exactly where each inference ran, and structured minutes you can export.</p>
+          <p class="empty-jp">サンプルを選ぶか、左にテキストを貼って「Organize」を押してください。</p>
+        </div>
+
+        <div id="result" hidden>
+          <div id="triage-card" class="card card-triage"></div>
+
+          <div class="card card-routing">
+            <h3>Routing log <span class="h3-jp">推論ルート</span></h3>
+            <ul id="routing-log" class="routing-log"></ul>
+          </div>
+
+          <div id="organized"></div>
+
+          <div class="export-row">
+            <button id="copy-md" class="btn-secondary">Copy as Markdown</button>
+            <button id="download-md" class="btn-secondary">Download .md</button>
+            <span id="copy-status" class="copy-status"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>
+        Built with <strong>Firebase AI Logic</strong> hybrid inference (Gemini Nano on-device + Gemini in the cloud).
+        All AI inference goes through Firebase AI Logic. · MIT License
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
